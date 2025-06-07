@@ -1,0 +1,36 @@
+#db-deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: crud-app
+spec:
+   replicas: 1
+   selector:
+     matchLabels:
+        name: backend
+   template:
+     metadata:
+        labels:
+          name: backend
+     spec:
+       containers:
+       - name: backend
+         image: final_assignment-backend
+         imagePullPolicy: Never
+         env:
+          - name: db_address
+            value: postgres-db
+          - name: db_name
+            value: postgres  
+          - name: db_username
+            value: postgres
+          - name: db_password
+            valueFrom:
+              secretKeyRef:
+                name: db-password 
+                key: POSTGRES_PASSWORD  
+
+           
+
+                  

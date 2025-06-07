@@ -1,0 +1,35 @@
+#db-deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-db
+  namespace: crud-app
+spec:
+   replicas: 1
+   selector:
+     matchLabels:
+        name: postgres-db
+   template:
+     metadata:
+        labels:
+          name: postgres-db
+     spec:
+       containers:
+       - name: postgres
+         image: postgres:16
+         env:
+          - name: POSTGRES_DB
+            value: postgres  
+          - name: POSTGRES_USER
+            value: postgres
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: db-password 
+                key: POSTGRES_PASSWORD
+       volumes:
+        - name: postgres-storage
+          persistentVolumeClaim:
+            claimName: pv-claim        
+
+                  

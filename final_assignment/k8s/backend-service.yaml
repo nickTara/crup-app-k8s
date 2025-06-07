@@ -1,0 +1,12 @@
+#db-service
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  namespace: crud-app
+spec:
+  ports:
+    - port: 8000
+      targetPort: 8000 
+  selector:
+    name: backend   
